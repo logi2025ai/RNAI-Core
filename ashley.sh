@@ -1,19 +1,24 @@
 #!/bin/bash
 
 # Ashley CLI - Centro de control RNAI
-echo "--------------------------------------------------"
-echo "Ashley AI - RNAI-Core CLI"
-echo "Comando recibido: $1"
-echo "--------------------------------------------------"
+source ./ashley-engine.sh
 
-# Procesador de comandos
-case $1 in
+echo "
+-------------------------------
+Ashley AI   -   RNAI-Core CLI
+-------------------------------
+Comando recibido: $1
+"
+
+case "$1" in
   deploy)
-    echo "[✓] Desplegando sistema a Vercel..."
+    echo "[✓] Iniciando despliegue del sistema..."
+    auto_tasks
     ;;
 
   purge)
-    echo "[✓] Limpiando bots inactivos..."
+    echo "[!] Eliminando bots inactivos..."
+    echo "[✓] Purga completada"
     ;;
 
   sync)
@@ -22,14 +27,15 @@ case $1 in
 
   help)
     echo "Comandos disponibles:"
-    echo " - deploy    → Desplegar sistema"
-    echo " - purge     → Eliminar bots inactivos"
-    echo " - sync      → Sincronizar flujos"
-    echo " - help      → Mostrar esta ayuda"
+    echo " - deploy   → Desplegar sistema"
+    echo " - purge    → Eliminar bots inactivos"
+    echo " - sync     → Sincronizar flujos"
+    echo " - help     → Mostrar esta ayuda"
     ;;
 
   *)
     echo "[x] Comando no reconocido. Usa 'ashley help' para ver opciones."
     ;;
 esac
-Create ashley.sh - Módulo central de Ashley CLI
+
+# Create ashley.sh - Módulo central de Ashley CLI
