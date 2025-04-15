@@ -1,29 +1,40 @@
-from flask import Flask, jsonify
 import requests
 import base64
-import os
+import json
 
-app = Flask(__name__)
+client_id = "_0e_lS9YTLq7X8oklZeaeA"
+client_secret = "6wG0LMpGiww0ZAyhJmx6MbfLK3dG5wUP"
 
-ZOOM_CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
-ZOOM_CLIENT_SECRET = os.getenv("ZOOM_CLIENT_SECRET")
-ZOOM_BASE64 = os.getenv("ZOOM_BASE64")  # client_id:client_secret codificado en base64
-
-@app.route('/')
-def home():
-    return '<h2>✅ RNAI-Core conectado a Zoom</h2>'
-
-@app.route('/zoom/token')
-def get_zoom_token():
-    url = "https://zoom.us/oauth/token?grant_type=account_credentials&account_id=" + os.getenv("ZOOM_ACCOUNT_ID")
+def get_access_token():
+    url = "https://zoom.us/oauth/token"
+    auth_str = f"{client_id}:{client_secret}"
     headers = {
-        "Authorization": f"Basic {ZOOM_BASE64}"
+        "Authorization": f"Basic {base64.b64encode(auth_str.encode()).decode()}",
+        "Content-Type": "application/x-www-form-urlencoded"
     }
-    response = requests.post(url, headers=headers)
-    if response.status_code == 200:
-        return jsonify(response.json())
-    else:
-        return jsonify({"error": "Failed to fetch Zoom token", "details": response.text})
+    payload = {
+        "grant_type": "client_credentials"
+    }
+    response = requests.post(url, headers=headers, data=payload)
+    return response.json().get("access_token")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+def create_meeting():
+    token = get_access_token()
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "topic": "Reunión de prueba RNAI",
+        "type": 1
+    }
+    response = requests.post(
+        "https://api.zoom.us/v2/users/me/meetings",
+        headers=headers,
+        data=json.dumps(data)
+    )
+    result = response.json()
+    print("🔗 Join URL:", result.get("join_url"))
+
+if __name__ == "__main__":
+    create_meeting()
