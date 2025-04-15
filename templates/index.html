@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reunión RNAI - Zoom Bot</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 30px;
+      margin: 0 auto;
+      width: 60%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    a.button {
+      background-color: #00bcd4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1.2em;
+      display: inline-block;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    a.button:hover {
+      background-color: #008c9e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔗 ¡Tu reunión está lista!</h1>
+    <p>Haz clic en el botón de abajo para unirte a la reunión:</p>
+    <a href="{{ join_url }}" target="_blank" class="button">Unirme a la reunión Zoom</a>
+  </div>
+</body>
+</html>
